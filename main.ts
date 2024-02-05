@@ -1,7 +1,7 @@
 // @ts-ignore
 // @ts-nocheck
 
-import { Notice, Plugin, request } from "obsidian";
+import { Plugin } from "obsidian";
 
 import fs from "fs/promises";
 
@@ -42,23 +42,6 @@ export default class MyPlugin extends Plugin {
 					let height = parseInt(style.match(heightRegex)[1]);
 
 					if (link != null) {
-						// request(link).then(async (res) => {
-						// 	const ogImageRegex =
-						// 		/<meta\s+property="og:image"\s+content="([^"]+)"\s*\/?>/i;
-						// 	const match = res.match(ogImageRegex);
-						// 	if (match && match.length >= 2) {
-						// 		const img = new Image();
-
-						// 		if (match[1].charAt(0) == "/") {
-						// 			img.src = link + match[1];
-						// 		} else {
-						// 			img.src = match[1];
-						// 		}
-						// 		e.replaceWith(img);
-						// 		replacedCount += 1;
-						// } else {
-						//  no og image found
-
 						let imageAlreadyExists = false;
 
 						let imageFileName =
@@ -72,7 +55,7 @@ export default class MyPlugin extends Plugin {
 							".jpg";
 
 						let files = await fs.readdir(
-							path.join(vaultLocation, "-")
+							path.join(vaultLocation, "-", "website-previews")
 						);
 
 						files.forEach((file) => {
@@ -85,7 +68,10 @@ export default class MyPlugin extends Plugin {
 							console.log("img alr exist");
 							const img = new Image();
 
-							let imgPath = activePath + "/-/" + imageFileName;
+							let imgPath =
+								activePath +
+								"/-/website-previews/" +
+								imageFileName;
 
 							img.src = imgPath;
 							console.log(imgPath);
@@ -96,14 +82,8 @@ export default class MyPlugin extends Plugin {
 							// ? image not downloaded
 							missingDownloads += 1;
 						}
-						// 	}
-						// });
 					}
 				});
-
-				// new Notice("images not downloaded: " + missingDownloads);
-
-				// ! fix this later
 			}
 
 			function downloadImages() {
@@ -135,6 +115,7 @@ export default class MyPlugin extends Plugin {
 						const outputPath = path.join(
 							vaultLocation,
 							"-",
+							"website-previews",
 							imageFileName
 						);
 						fetch(

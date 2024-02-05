@@ -1,10 +1,10 @@
 {
-	"id": "obsidian-webview-replacer",
-	"name": "WebView Replacer",
-	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "replaces the webview for links which are added to a canvas with an image",
-	"author": "adithyasource",
-	"authorUrl": "https://adithya.zip",
-	"isDesktopOnly": true
+  "id": "obsidian-website-previewer",
+  "name": "website previewer",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "replaces the webview for links which are added to a canvas with a preview image",
+  "author": "adithyasource",
+  "authorUrl": "https://adithya.zip",
+  "isDesktopOnly": true
 }
