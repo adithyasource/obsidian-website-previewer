@@ -22,6 +22,6 @@
 		"typescript": "4.7.4"
 	},
 	"dependencies": {
-		"capture-website": "^4.1.0"
+		"jimp": "^0.22.10"
 	}
 }
