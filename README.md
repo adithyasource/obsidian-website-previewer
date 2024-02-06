@@ -3,7 +3,7 @@
 <table>
 <tbody>
 <tr>
-<td><a href="#" target="_blank">> download & setup</a></td>
+<td><a href="#how-to-download-and-setup-tested-and-verified-on-windows-only">> download & setup</a></td>
 </tr>
 </tbody>
 </table>
