@@ -59,10 +59,6 @@ this plugin makes it so that you can just hit a hotkey (ctrl + shift + d) and a 
 </tbody>
 </table>
 
-## License
-
-This project is licensed under [Unlicense](https://unlicense.org).
-
 ## Acknowledgments
 
 <table>
