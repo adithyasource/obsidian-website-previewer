@@ -15,7 +15,7 @@ this plugin makes it so that you can just hit a hotkey (ctrl + shift + d) and a 
 ## How to Download and Setup (tested and verified on windows only)
 
 - make sure your obsidian vault is created and [python is installed](https://www.python.org/downloads/)
-- you'll need the plugin's zip file from [here](https://github.com/adithyasource/obsidian-website-previewer/releases/tag/1.0.0)
+- you'll need the plugin's zip file from [here](https://github.com/adithyasource/obsidian-website-previewer/releases/tag/1.0.1)
 - then in the location of the vault, go to `VAULT-LOCATION\.obsidian\plugins\` (create the plugins folder if it doesnt exist)
 - here extract the zip file such that the contents of `.obsidian\plugins\obsidian-website-previewer` only contain the `main.js` and `manifest.json` files
 - go [here](https://github.com/adithyasource/obsidian-website-previewer-api/releases/tag/1.0.0) and download the zip file for setting up the api and extract it to a folder
