@@ -14,10 +14,11 @@ export default class MyPlugin extends Plugin {
 
 		let activePath;
 
-		let vaultLocation = this.app.vault.adapter.basePath;
+		const vaultLocation = this.app.vault.adapter.basePath;
 
 		setTimeout(async () => {
 			activeFile = this.app.workspace.getActiveFile();
+
 			activePath = this.app.vault.getResourcePath(activeFile);
 
 			activePath = activePath.split("/");
@@ -25,6 +26,9 @@ export default class MyPlugin extends Plugin {
 			activePath.pop();
 
 			activePath = activePath.join("/");
+
+			const filePath = this.app.workspace.getActiveFile().path;
+			activePath = activePath.replace(filePath, "");
 		}, 2000);
 
 		async function createDirIfNotExists() {
@@ -46,25 +50,22 @@ export default class MyPlugin extends Plugin {
 		}
 
 		async function replaceWebView() {
-			let replacedCount = 0;
-			let missingDownloads = 0;
-
 			document.querySelectorAll("webview").forEach(async (e) => {
 				const link = e.getAttribute("src");
 
-				let style =
+				const style =
 					e.parentNode.parentNode.parentNode.getAttribute("style");
 
-				let widthRegex = /width: (\d+)px;/;
-				let heightRegex = /height: (\d+)px;/;
+				const widthRegex = /width: (\d+)px;/;
+				const heightRegex = /height: (\d+)px;/;
 
-				let width = parseInt(style.match(widthRegex)[1]);
-				let height = parseInt(style.match(heightRegex)[1]);
+				const width = parseInt(style.match(widthRegex)[1]);
+				const height = parseInt(style.match(heightRegex)[1]);
 
 				if (link != null) {
 					let imageAlreadyExists = false;
 
-					let imageFileName =
+					const imageFileName =
 						link
 							.replaceAll(".", "-")
 							.replaceAll("/", "-")
@@ -74,7 +75,7 @@ export default class MyPlugin extends Plugin {
 						height +
 						".jpg";
 
-					let files = await fs.readdir(
+					const files = await fs.readdir(
 						path.join(vaultLocation, "-", "website-previews")
 					);
 
@@ -87,14 +88,13 @@ export default class MyPlugin extends Plugin {
 					if (imageAlreadyExists) {
 						const img = new Image();
 
-						let imgPath =
+						const imgPath =
 							activePath + "/-/website-previews/" + imageFileName;
 
 						img.src = imgPath;
 						e.replaceWith(img);
 					} else {
 						// ? image not downloaded
-						missingDownloads += 1;
 					}
 				}
 			});
@@ -106,17 +106,17 @@ export default class MyPlugin extends Plugin {
 			document.querySelectorAll("webview").forEach(async (e) => {
 				const link = e.getAttribute("src");
 
-				let style =
+				const style =
 					e.parentNode.parentNode.parentNode.getAttribute("style");
 
-				let widthRegex = /width: (\d+)px;/;
-				let heightRegex = /height: (\d+)px;/;
+				const widthRegex = /width: (\d+)px;/;
+				const heightRegex = /height: (\d+)px;/;
 
-				let width = parseInt(style.match(widthRegex)[1]);
-				let height = parseInt(style.match(heightRegex)[1]);
+				const width = parseInt(style.match(widthRegex)[1]);
+				const height = parseInt(style.match(heightRegex)[1]);
 
 				if (link != null) {
-					let imageFileName =
+					const imageFileName =
 						link
 							.replaceAll(".", "-")
 							.replaceAll("/", "-")
@@ -188,6 +188,8 @@ export default class MyPlugin extends Plugin {
 			setInterval(() => {
 				replaceWebView();
 			}, 2000);
-		} catch (error) {}
+		} catch (error) {
+			// ! Fix later
+		}
 	}
 }
