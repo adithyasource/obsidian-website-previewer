@@ -14,7 +14,29 @@ export default class MyPlugin extends Plugin {
 
 		let activePath;
 
+		let obsidianFilePath;
+
 		const vaultLocation = this.app.vault.adapter.basePath;
+
+		async function createDirIfNotExists() {
+			try {
+				await fs.readdir(path.join(vaultLocation, ".cache"));
+			} catch (error) {
+				await fs.mkdir(path.join(vaultLocation, ".cache"));
+			}
+
+			try {
+				await fs.readdir(
+					path.join(vaultLocation, ".cache", "website-previews")
+				);
+			} catch (error) {
+				await fs.mkdir(
+					path.join(vaultLocation, ".cache", "website-previews")
+				);
+			}
+		}
+
+		createDirIfNotExists();
 
 		setTimeout(async () => {
 			activeFile = this.app.workspace.getActiveFile();
@@ -28,26 +50,17 @@ export default class MyPlugin extends Plugin {
 			activePath = activePath.join("/");
 
 			const filePath = this.app.workspace.getActiveFile().path;
-			activePath = activePath.replace(filePath, "");
+
+			obsidianFilePath = encodeURI(filePath);
+
+			obsidianFilePath = obsidianFilePath.split("/");
+
+			obsidianFilePath.pop();
+
+			obsidianFilePath = obsidianFilePath.join("/");
+
+			activePath = activePath.replace(obsidianFilePath, "");
 		}, 2000);
-
-		async function createDirIfNotExists() {
-			try {
-				await fs.readdir(path.join(vaultLocation, "-"));
-			} catch (error) {
-				await fs.mkdir(path.join(vaultLocation, "-"));
-			}
-
-			try {
-				await fs.readdir(
-					path.join(vaultLocation, "-", "website-previews")
-				);
-			} catch (error) {
-				await fs.mkdir(
-					path.join(vaultLocation, "-", "website-previews")
-				);
-			}
-		}
 
 		async function replaceWebView() {
 			document.querySelectorAll("webview").forEach(async (e) => {
@@ -76,7 +89,7 @@ export default class MyPlugin extends Plugin {
 						".jpg";
 
 					const files = await fs.readdir(
-						path.join(vaultLocation, "-", "website-previews")
+						path.join(vaultLocation, ".cache", "website-previews")
 					);
 
 					files.forEach((file) => {
@@ -89,7 +102,9 @@ export default class MyPlugin extends Plugin {
 						const img = new Image();
 
 						const imgPath =
-							activePath + "/-/website-previews/" + imageFileName;
+							activePath +
+							"/.cache/website-previews/" +
+							imageFileName;
 
 						img.src = imgPath;
 						e.replaceWith(img);
@@ -128,7 +143,7 @@ export default class MyPlugin extends Plugin {
 
 					const outputPath = path.join(
 						vaultLocation,
-						"-",
+						".cache",
 						"website-previews",
 						imageFileName
 					);
@@ -150,7 +165,9 @@ export default class MyPlugin extends Plugin {
 										if (err) {
 											console.error(err);
 										} else {
-											console.log("downloaded: " + link);
+											const noticeText =
+												"downloaded: " + link;
+											new Notice(noticeText);
 										}
 									});
 								}
@@ -174,7 +191,7 @@ export default class MyPlugin extends Plugin {
 			name: "downloads images for links that dont have it yet",
 			callback: () => {
 				downloadImages();
-				new Notice("downloading! check dev console for progress");
+				new Notice("downloading!");
 			},
 			hotkeys: [
 				{

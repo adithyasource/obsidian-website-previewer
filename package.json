@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-website-previewer",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"description": "replaces the webview for links which are added to a canvas with a preview image",
 	"main": "main.js",
 	"scripts": {
